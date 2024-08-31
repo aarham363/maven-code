@@ -1,0 +1,11 @@
+node {
+    stage('download code from scm') {
+    git branch: 'dev', url: 'https://github.com/aarham363/maven-code.git'
+                                    }
+    stage('convert into artifact') {
+    sh 'mvn package'
+                               }
+    stage('deployment') {
+    deploy adapters: [tomcat9(credentialsId: '51175c17-e86c-4bf3-8d8e-1c88c888ffd6', path: '', url: 'http://13.201.134.237:8080')], contextPath: '/dev', war: '**/*.war'
+                        }
+}
